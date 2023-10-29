@@ -1,4 +1,5 @@
-import { BsPersonFill } from "react-icons/bs";
+import { AiOutlineEdit } from "react-icons/ai";
+import { BsFillTrash3Fill } from "react-icons/bs";
 
 const Note = () => {
   return (
@@ -10,8 +11,8 @@ const Note = () => {
         <p>hello</p>
         <p>world</p>
         <div className="d-flex justify-content-center align-items-center">
-          <BsPersonFill />
-          <BsPersonFill />
+          <AiOutlineEdit className="me-3 text-primary" />
+          <BsFillTrash3Fill className="text-danger" />
         </div>
       </div>
     </div>

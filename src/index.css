@@ -84,3 +84,11 @@ input {
 img {
   mix-blend-mode: multiply;
 }
+
+svg {
+  font-size: 1.5rem;
+}
+
+button {
+  display: block !important;
+}
