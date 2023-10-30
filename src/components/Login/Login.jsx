@@ -7,11 +7,14 @@ import toast from "react-hot-toast";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
   const { saveUserData } = useAuth();
 
   const [loader, setLoader] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const validate = Yup.object({
@@ -32,7 +35,7 @@ const Login = () => {
     validationSchema: validate,
     onSubmit: function (values) {
       console.log("Submit", values);
-      // sendLoginData( values );
+      sendLoginData(values);
     },
   });
 
@@ -42,22 +45,19 @@ const Login = () => {
       const { data } = await axios.post("/users/signIn", obj);
       setLoader(false);
       if (data.msg === "done") {
-        toast.success("Welcome To Popcornflix", {
+        toast.success("Welcome To Notes app", {
           duration: 3000,
-          className: "text-info px-5 fw-bolder my-3",
-          iconTheme: {
-            primary: "#0dcaf0;",
-            secondary: "#fff",
-          },
+          className: "text-success px-5 fw-bolder my-3",
         });
-        // localStorage.setItem("userToken", data.token);
-        // saveUserData();
+        console.log(data);
+        localStorage.setItem("userToken", data.token);
+        saveUserData();
         navigate("/notes");
       }
     } catch (error) {
       setLoader(false);
       console.log("Error : ", error);
-      toast.error("Email Or Password is Wrong", {
+      toast.error(error.response.data.msg, {
         duration: 3000,
         className: " text-danger px-5 fw-bolder my-3",
       });
@@ -96,16 +96,29 @@ const Login = () => {
               )}
               <div className="d-flex align-items-center justify-content-center mb-3">
                 <BsLockFill className="me-3" />
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="password"
-                  id="password"
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
+                <div className="w-100 position-relative">
+                  <input
+                    type={`${showPassword ? "text" : "password"}`}
+                    className="form-control"
+                    placeholder="password"
+                    id="password"
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  <div
+                    className="position-absolute top-50 end-0 translate-middle-y"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEye />
+                    ) : (
+                      <AiOutlineEyeInvisible />
+                    )}
+                  </div>
+                </div>
               </div>
               {formik.errors.password && formik.touched.password && (
                 <small className="text-danger text-center ">

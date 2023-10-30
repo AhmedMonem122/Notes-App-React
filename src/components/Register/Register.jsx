@@ -12,9 +12,11 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import axios from "../../api/axios";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
   const [loader, setLoader] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const validate = Yup.object({
@@ -64,7 +66,7 @@ const Register = () => {
           duration: 3000,
           className: "text-success px-5 fw-bolder my-3",
         });
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       setLoader(false);
@@ -122,16 +124,29 @@ const Register = () => {
 
               <div className="d-flex align-items-center justify-content-center mb-3">
                 <BsLockFill className="me-3" />
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="password"
-                  id="password"
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
+                <div className="w-100 position-relative">
+                  <input
+                    type={`${showPassword ? "text" : "password"}`}
+                    className="form-control"
+                    placeholder="password"
+                    id="password"
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  <div
+                    className="position-absolute top-50 end-0 translate-middle-y"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEye />
+                    ) : (
+                      <AiOutlineEyeInvisible />
+                    )}
+                  </div>
+                </div>
               </div>
               {formik.errors.password && formik.touched.password && (
                 <small className="text-danger text-center ">
@@ -200,7 +215,7 @@ const Register = () => {
 
               <div className="d-flex mt-3">
                 <p className="me-3">Have an Account?</p>
-                <Link to="/">Sign In</Link>
+                <Link to="/login">Sign In</Link>
               </div>
             </form>
           </div>

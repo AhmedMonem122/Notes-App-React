@@ -1,8 +1,11 @@
 import notesImage from "../../assets/images/notes.jpg";
 import { BsPersonFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
+import useAuth from "../../hooks/use-auth";
 
 const NotesSidebar = () => {
+  const { handleLogout } = useAuth();
+
   return (
     <div
       className="bg-dark text-white position-sticky top-0"
@@ -25,7 +28,11 @@ const NotesSidebar = () => {
         <BsPersonFill />
       </div>
 
-      <div className="d-flex justify-content-center align-items-center mt-4">
+      <div
+        className="d-flex justify-content-center align-items-center mt-4"
+        style={{ cursor: "pointer" }}
+        onClick={handleLogout}
+      >
         <p className="me-3 mb-0 d-none d-md-block">Logout</p>
         <BiLogOut />
       </div>
