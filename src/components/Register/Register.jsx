@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import registerImage from "../../assets/images/Register-photo.jpg";
+import registerImage from "../../assets/images/Register-photo.png";
 import {
   BsPersonFill,
   BsEnvelopeCheck,

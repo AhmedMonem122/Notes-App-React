@@ -1,4 +1,4 @@
-import notesImage from "../../assets/images/notes.jpg";
+import notesImage from "../../assets/images/notes.png";
 import { BsPersonFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../hooks/use-auth";
@@ -13,13 +13,8 @@ const NotesSidebar = () => {
     >
       <div className="d-flex justify-content-center align-items-center mt-5">
         <p className="me-3 mb-0 d-none d-md-block">Notes</p>
-        <div>
-          <img
-            className="img-fluid"
-            src={notesImage}
-            alt="notes"
-            style={{ width: "20px" }}
-          />
+        <div style={{ width: "20px" }} className="bg-white">
+          <img className="img-fluid" src={notesImage} alt="notes" />
         </div>
       </div>
 

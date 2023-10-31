@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import LoginImage from "../../assets/images/Login-photo.jpg";
+import LoginImage from "../../assets/images/Login-photo.png";
 import { BsEnvelopeCheck, BsLockFill } from "react-icons/bs";
 import useAuth from "../../hooks/use-auth";
 import axios from "../../api/axios";
@@ -50,7 +50,7 @@ const Login = () => {
           className: "text-success px-5 fw-bolder my-3",
         });
         console.log(data);
-        localStorage.setItem("userToken", data.token);
+        localStorage.setItem("userToken", `3b8ny__${data.token}`);
         saveUserData();
         navigate("/notes");
       }

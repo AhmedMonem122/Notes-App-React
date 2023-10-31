@@ -1,7 +1,14 @@
 import useNotes from "../../hooks/use-notes";
 
-const Modal = () => {
-  const { title, setTitle, content, setContent } = useNotes();
+const AddNoteModal = () => {
+  const {
+    addNoteTitle,
+    setAddNoteTitle,
+    addNoteContent,
+    setAddNoteContent,
+    addNote,
+    getUserNotes,
+  } = useNotes();
 
   return (
     <div
@@ -32,8 +39,8 @@ const Modal = () => {
               name=""
               id=""
               placeholder="Title"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              onChange={(e) => setAddNoteTitle(e.target.value)}
+              value={addNoteTitle}
             />
             <input
               className="form-control"
@@ -41,8 +48,8 @@ const Modal = () => {
               name=""
               id=""
               placeholder="Content"
-              onChange={(e) => setContent(e.target.value)}
-              value={content}
+              onChange={(e) => setAddNoteContent(e.target.value)}
+              value={addNoteContent}
             />
           </div>
           <div className="modal-footer">
@@ -53,7 +60,15 @@ const Modal = () => {
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                addNote();
+                return getUserNotes();
+              }}
+            >
               Add Note
             </button>
           </div>
@@ -63,4 +78,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default AddNoteModal;

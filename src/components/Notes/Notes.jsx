@@ -1,8 +1,15 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Note from "../Note/Note";
-import Modal from "../Modal/Modal";
+import AddNoteModal from "../AddNoteModal/AddNoteModal";
+import useNotes from "../../hooks/use-notes";
 
 const Notes = () => {
+  const { getUserNotes, noNotesError, notes } = useNotes();
+
+  useEffect(() => {
+    getUserNotes();
+  }, []);
+
   return (
     <Fragment>
       <div className="container">
@@ -23,15 +30,19 @@ const Notes = () => {
 
         <div className="container">
           <div className="row">
-            <Note />
-            <Note />
-            <Note />
-            <Note />
-            <Note />
+            {noNotesError ? (
+              <p className="text-center text-dark fw-bold text-capitalize fs-4">
+                {noNotesError}
+              </p>
+            ) : (
+              notes.map((note) => {
+                return <Note key={note._id} {...note} />;
+              })
+            )}
           </div>
         </div>
       </div>
-      <Modal />
+      <AddNoteModal />
     </Fragment>
   );
 };
