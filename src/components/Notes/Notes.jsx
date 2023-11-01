@@ -22,7 +22,7 @@ const Notes = () => {
             className="btn btn-primary position-absolute end-0"
             style={{ top: "25%" }}
             data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
+            data-bs-target="#addNoteModal"
           >
             + Add Note
           </button>

@@ -1,34 +1,42 @@
 import useNotes from "../../hooks/use-notes";
 
-const AddNoteModal = () => {
-  const {
-    addNoteTitle,
-    setAddNoteTitle,
-    addNoteContent,
-    setAddNoteContent,
-    addNote,
-  } = useNotes();
+const UpdateNoteModal = ({
+  updateNoteTitle,
+  setUpdateNoteTitle,
+  updateNoteContent,
+  setUpdateNoteContent,
+  id,
+  title,
+  content,
+}) => {
+  const { updateNote } = useNotes();
+
+  const handleCloseModal = () => {
+    setUpdateNoteTitle(title);
+    setUpdateNoteContent(content);
+  };
 
   return (
     <div
       className="modal fade"
-      id="addNoteModal"
+      id={`updateNoteModal-${id}`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
-      aria-labelledby="addNoteModalLabel"
+      aria-labelledby={`updateNoteModalLabel-${id}`}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5" id="addNoteModalLabel">
-              Add Note
+            <h1 className="modal-title fs-5" id={`updateNoteModalLabel-${id}`}>
+              Update Note
             </h1>
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={handleCloseModal}
             ></button>
           </div>
           <div className="modal-body">
@@ -38,8 +46,8 @@ const AddNoteModal = () => {
               name=""
               id=""
               placeholder="Title"
-              onChange={(e) => setAddNoteTitle(e.target.value)}
-              value={addNoteTitle}
+              onChange={(e) => setUpdateNoteTitle(e.target.value)}
+              value={updateNoteTitle}
             />
             <input
               className="form-control"
@@ -47,8 +55,8 @@ const AddNoteModal = () => {
               name=""
               id=""
               placeholder="Content"
-              onChange={(e) => setAddNoteContent(e.target.value)}
-              value={addNoteContent}
+              onChange={(e) => setUpdateNoteContent(e.target.value)}
+              value={updateNoteContent}
             />
           </div>
           <div className="modal-footer">
@@ -56,16 +64,17 @@ const AddNoteModal = () => {
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
+              onClick={handleCloseModal}
             >
               Close
             </button>
             <button
               type="button"
               className="btn btn-primary"
-              data-bs-dismiss={addNoteTitle && addNoteContent && "modal"}
-              onClick={addNote}
+              data-bs-dismiss={updateNoteTitle && updateNoteContent && "modal"}
+              onClick={() => updateNote(id, updateNoteTitle, updateNoteContent)}
             >
-              Add Note
+              Update Note
             </button>
           </div>
         </div>
@@ -74,4 +83,4 @@ const AddNoteModal = () => {
   );
 };
 
-export default AddNoteModal;
+export default UpdateNoteModal;

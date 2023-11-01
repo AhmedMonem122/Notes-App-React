@@ -1,13 +1,8 @@
 import { createContext, useState } from "react";
 import axios from "../api/axios";
+import toast from "react-hot-toast";
 
 export const NotesContext = createContext();
-
-const USER_HEADERS_TOKEN = {
-  headers: {
-    token: localStorage.getItem("userToken"),
-  },
-};
 
 const NotesContextProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
@@ -17,7 +12,11 @@ const NotesContextProvider = ({ children }) => {
 
   const getUserNotes = async () => {
     try {
-      const { data } = await axios.get("/notes", USER_HEADERS_TOKEN);
+      const { data } = await axios.get("/notes", {
+        headers: {
+          token: localStorage.getItem("userToken"),
+        },
+      });
 
       if (data.msg === "done") {
         setNotes(data.notes);
@@ -34,35 +33,80 @@ const NotesContextProvider = ({ children }) => {
   };
 
   const addNote = async () => {
+    if (addNoteTitle && addNoteContent) {
+      try {
+        const { data } = await axios.post(
+          "/notes",
+          {
+            title: addNoteTitle,
+            content: addNoteContent,
+          },
+          {
+            headers: {
+              token: localStorage.getItem("userToken"),
+            },
+          }
+        );
+
+        getUserNotes();
+
+        setAddNoteTitle("");
+        setAddNoteContent("");
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      toast.error("Please fill in both title and content are required", {
+        duration: 3000,
+        className: " text-danger px-5 fw-bolder my-3",
+      });
+    }
+  };
+
+  const deleteNote = async (id) => {
     try {
-      const { data } = await axios.post(
-        "/notes",
-        {
-          title: addNoteTitle,
-          content: addNoteContent,
+      const { data } = await axios.delete(`/notes/${id}`, {
+        headers: {
+          token: localStorage.getItem("userToken"),
         },
-        USER_HEADERS_TOKEN
-      );
+      });
 
       getUserNotes();
 
-      setAddNoteTitle("");
-      setAddNoteContent("");
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteNote = async (id) => {
-    try {
-      const { data } = await axios.delete(`/notes/${id}`, USER_HEADERS_TOKEN);
+  const updateNote = async (id, title, content) => {
+    if (title && content) {
+      try {
+        const { data } = await axios.put(
+          `/notes/${id}`,
+          {
+            title,
+            content,
+          },
+          {
+            headers: {
+              token: localStorage.getItem("userToken"),
+            },
+          }
+        );
 
-      getUserNotes();
+        console.log(data);
 
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+        getUserNotes();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      toast.error("Please fill in both title and content are required", {
+        duration: 3000,
+        className: " text-danger px-5 fw-bolder my-3",
+      });
     }
   };
 
@@ -78,6 +122,7 @@ const NotesContextProvider = ({ children }) => {
         addNote,
         notes,
         deleteNote,
+        updateNote,
       }}
     >
       {children}
