@@ -2,6 +2,7 @@ import notesImage from "../../assets/images/notes.png";
 import { BsPersonFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../hooks/use-auth";
+import { Link } from "react-router-dom";
 
 const NotesSidebar = () => {
   const { handleLogout } = useAuth();
@@ -18,10 +19,13 @@ const NotesSidebar = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center align-items-center mt-4">
+      <Link
+        to="/register"
+        className="d-flex justify-content-center align-items-center mt-4 text-decoration-none text-white"
+      >
         <p className="me-3 mb-0 d-none d-md-block">Register</p>
         <BsPersonFill />
-      </div>
+      </Link>
 
       <div
         className="d-flex justify-content-center align-items-center mt-4"

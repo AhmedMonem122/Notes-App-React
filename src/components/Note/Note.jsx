@@ -18,7 +18,7 @@ const Note = ({ title, content, _id }) => {
   return (
     <Fragment>
       <div className="col-md-4">
-        <div className="bg-white shadow text-center py-4 mt-3 rounded">
+        <div className="bg-white shadow text-center py-4 my-3 rounded">
           <p>{title}</p>
           <p>{content}</p>
           <div className="d-flex justify-content-center align-items-center">
