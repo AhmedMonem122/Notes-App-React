@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import UpdateNoteModal from "../UpdateNoteModal/UpdateNoteModal";
 
 const Note = ({ title, content, _id }) => {
-  const { deleteNote } = useNotes();
+  const { deleteNoteWithSweetAlert } = useNotes();
 
   const [updateNoteTitle, setUpdateNoteTitle] = useState("");
   const [updateNoteContent, setUpdateNoteContent] = useState("");
@@ -31,7 +31,7 @@ const Note = ({ title, content, _id }) => {
             <BsFillTrash3Fill
               className="text-danger"
               style={{ cursor: "pointer" }}
-              onClick={() => deleteNote(_id)}
+              onClick={() => deleteNoteWithSweetAlert(_id)}
             />
           </div>
         </div>

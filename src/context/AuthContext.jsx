@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext();
 
@@ -26,6 +27,10 @@ const AuthContextProvider = ({ children }) => {
     setUserData(null);
     localStorage.removeItem("userToken");
     navigate("/login");
+    toast.success("Logged out Successfully", {
+      duration: 3000,
+      className: "text-success px-5 fw-bolder my-3",
+    });
   };
 
   return (

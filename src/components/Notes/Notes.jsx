@@ -29,7 +29,7 @@ const Notes = () => {
         </div>
 
         <div className="container">
-          <div className="row">
+          <div className="row g-3">
             {noNotesError ? (
               <p className="text-center text-dark fw-bold text-capitalize fs-4">
                 {noNotesError}

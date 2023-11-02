@@ -50,7 +50,6 @@ const Register = () => {
     },
     validationSchema: validate,
     onSubmit: function (values) {
-      console.log("Submit", values);
       sendRegisterData(values);
     },
   });
@@ -60,7 +59,6 @@ const Register = () => {
     try {
       const { data } = await axios.post("/users/signUp", obj);
       setLoader(false);
-      console.log(data);
       if (data.msg === "done") {
         toast.success("Congratulations", {
           duration: 3000,
@@ -70,7 +68,6 @@ const Register = () => {
       }
     } catch (error) {
       setLoader(false);
-      console.log("Error : ", error);
       toast.error(error.response.data.msg, {
         duration: 3000,
         className: " text-danger px-5 fw-bolder my-3",
@@ -81,7 +78,7 @@ const Register = () => {
   return (
     <div className="container">
       <div className="bg-white rounded shadow my-5 p-4">
-        <div className="row align-items-center">
+        <div className="row align-items-center gx-3">
           <div className="col-md-6 bg-white shadow rounded p-4">
             <h1>Sign Up</h1>
             <form onSubmit={formik.handleSubmit}>

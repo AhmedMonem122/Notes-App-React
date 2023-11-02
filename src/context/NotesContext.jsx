@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import axios from "../api/axios";
+import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
 export const NotesContext = createContext();
@@ -22,14 +23,27 @@ const NotesContextProvider = ({ children }) => {
         setNotes(data.notes);
         setNoNotesError(null);
       }
-
-      console.log(data);
     } catch (error) {
-      console.log(error);
       if (error.response?.data.statusCode === 404) {
         setNoNotesError(error.response.data.msg);
       }
+
+      toast.error(error.response?.data?.msg, {
+        duration: 3000,
+        className: " text-danger px-5 fw-bolder my-3",
+      });
     }
+  };
+
+  const workSavedSweetAlert = () => {
+    Swal.fire({
+      title: "Your Work has been Saved",
+      timer: 2000,
+      icon: "success",
+      showCloseButton: false,
+      showConfirmButton: false,
+      showCancelButton: false,
+    });
   };
 
   const addNote = async () => {
@@ -52,9 +66,13 @@ const NotesContextProvider = ({ children }) => {
 
         setAddNoteTitle("");
         setAddNoteContent("");
-        console.log(data);
+
+        workSavedSweetAlert();
       } catch (error) {
-        console.log(error);
+        toast.error(error.response?.data?.msg, {
+          duration: 3000,
+          className: " text-danger px-5 fw-bolder my-3",
+        });
       }
     } else {
       toast.error("Please fill in both title and content are required", {
@@ -73,10 +91,11 @@ const NotesContextProvider = ({ children }) => {
       });
 
       getUserNotes();
-
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response?.data?.msg, {
+        duration: 3000,
+        className: " text-danger px-5 fw-bolder my-3",
+      });
     }
   };
 
@@ -96,11 +115,14 @@ const NotesContextProvider = ({ children }) => {
           }
         );
 
-        console.log(data);
-
         getUserNotes();
+
+        workSavedSweetAlert();
       } catch (error) {
-        console.log(error);
+        toast.error(error.response?.data?.msg, {
+          duration: 3000,
+          className: " text-danger px-5 fw-bolder my-3",
+        });
       }
     } else {
       toast.error("Please fill in both title and content are required", {
@@ -108,6 +130,49 @@ const NotesContextProvider = ({ children }) => {
         className: " text-danger px-5 fw-bolder my-3",
       });
     }
+  };
+
+  const deleteNoteWithSweetAlert = (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success me-3",
+        cancelButton: "btn btn-danger me-3",
+        denyButton: "d-none",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+        showDenyButton: false,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          deleteNote(id);
+
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your file has been deleted.",
+            "success"
+          );
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
+        }
+      });
   };
 
   return (
@@ -123,6 +188,7 @@ const NotesContextProvider = ({ children }) => {
         notes,
         deleteNote,
         updateNote,
+        deleteNoteWithSweetAlert,
       }}
     >
       {children}

@@ -34,7 +34,6 @@ const Login = () => {
     },
     validationSchema: validate,
     onSubmit: function (values) {
-      console.log("Submit", values);
       sendLoginData(values);
     },
   });
@@ -49,14 +48,12 @@ const Login = () => {
           duration: 3000,
           className: "text-success px-5 fw-bolder my-3",
         });
-        console.log(data);
         localStorage.setItem("userToken", `3b8ny__${data.token}`);
         saveUserData();
         navigate("/notes");
       }
     } catch (error) {
       setLoader(false);
-      console.log("Error : ", error);
       toast.error(error.response.data.msg, {
         duration: 3000,
         className: " text-danger px-5 fw-bolder my-3",
@@ -67,7 +64,7 @@ const Login = () => {
   return (
     <div className="container">
       <div className="bg-white rounded shadow my-5 p-4">
-        <div className="row align-items-center">
+        <div className="row align-items-center gx-3">
           <div className="col-md-6">
             <div>
               <img src={LoginImage} alt="Register" className="img-fluid" />
